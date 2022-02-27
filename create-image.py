@@ -9,6 +9,6 @@ d.line(((0, 100), (200, 100)), "blue")
 d.line(((100, 0), (100, 200)), "blue")
 d.text((100, 100), "Quick", fill="red", anchor='ms', font=font)
 
-im.save(Path('output/Quick.png'))
+im.save(Path('output/Quick.png'), 'PNG')
 
 im.show()
