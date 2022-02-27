@@ -3,7 +3,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 scores = {
-    1: 1,
+    1: 0,
     2: 2,
     3: 11,
     4: 14,
@@ -38,19 +38,19 @@ for score, count in scores.items():
     barImage = Image.new('RGB', BAR_SCORE_SIZE, 'white')
     barDraw = ImageDraw.Draw(barImage)
 
-    barLength = (BAR_SIZE[0] * count / maximumCount) - 5
-
-    barDraw.rectangle((50, 5, barLength + SCORE_SIZE[0], BAR_SIZE[1] - 5), fill='grey')
-
     scoreAnchorPos = tuple(dim // 2 for dim in SCORE_SIZE)
 
     barDraw.text(scoreAnchorPos, str(score), fill='black', anchor='mm', font=scoreFont)
 
-    countText = str(count)
-    countLength = scoreFont.getlength(countText)
-    countAnchorPos = (barLength + SCORE_SIZE[0] - countLength // 2 - 10, BAR_SIZE[1] // 2)
+    if count != 0:
+        barLength = (BAR_SIZE[0] * count / maximumCount) - 5
 
-    barDraw.text(countAnchorPos, countText, fill='white', anchor='mm', font=scoreFont)
+        barDraw.rectangle((50, 5, barLength + SCORE_SIZE[0], BAR_SIZE[1] - 5), fill='grey')
+        countText = str(count)
+        countLength = scoreFont.getlength(countText)
+        countAnchorPos = (barLength + SCORE_SIZE[0] - countLength // 2 - 10, BAR_SIZE[1] // 2)
+
+        barDraw.text(countAnchorPos, countText, fill='white', anchor='mm', font=scoreFont)
 
     # barImage.show()
 
@@ -70,6 +70,3 @@ for count, image in enumerate(imageList):
     fullImage.paste(image, (imageLeft, imageTop, imageRight, imageBottom))
 
 fullImage.save(Path('output/gd.png'), 'PNG')
-byts = fullImage.tobytes()
-
-print(byts)
